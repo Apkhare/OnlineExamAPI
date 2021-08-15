@@ -20,7 +20,7 @@ namespace PrjSearchStudent.Controllers
             db = context;
         }
 
-        
+        #region Search for Users based on filters
         [HttpGet]
         public  IActionResult Getsp_Search_User_Details([FromQuery(Name="technology")] string technology, [FromQuery(Name = "state")] string state, [FromQuery(Name = "city")] string city, [FromQuery(Name = "level")] int level, [FromQuery(Name = "mark1")] int mark1, [FromQuery(Name = "mark2")] int mark2)
         {
@@ -44,6 +44,7 @@ namespace PrjSearchStudent.Controllers
                 return Ok("No data found !!!");
             }
         }
+        #endregion
         
 
         [Route("Technology")]
@@ -54,7 +55,9 @@ namespace PrjSearchStudent.Controllers
                         select t.TechnologyName).ToList();
             return Ok(tech);
         }
-
+        
+        
+        #region Fetching Level Number in ascending order
         [Route("Level")]
         [HttpGet]
         public IActionResult GetLevel()
@@ -65,8 +68,10 @@ namespace PrjSearchStudent.Controllers
                          
             return Ok(level);
         }
+        #endregion
 
-
+        
+        #region Fetching Distinct States
         [Route("State")]
         [HttpGet]
         public IActionResult GetState()
@@ -75,10 +80,10 @@ namespace PrjSearchStudent.Controllers
                          select u.State).Distinct().ToList();
             return Ok(state);
         }
-        
+        #endregion
 
         
-        
+        #Fetching City from a particular state
         [Route("state/{state}")]
         [HttpGet]
         public IActionResult GetCity(string state)
@@ -88,6 +93,7 @@ namespace PrjSearchStudent.Controllers
                         select u.City).Distinct().ToList();
             return Ok(city);
         }
+        #endregion
 
     
 
