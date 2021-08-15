@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrjSearchStudent.Controllers
-{
+{   #region Admin Module Removing Questions
     [Route("api/[controller]")]
     [ApiController]
     public class RemoveQuesController : ControllerBase
@@ -19,7 +19,7 @@ namespace PrjSearchStudent.Controllers
         {
             db = context;
         }
-
+        #region Deleting questions from questions and exam table
         [HttpDelete]
         public async Task<IActionResult> DeleteQues(string technology, int level)
         {
@@ -58,8 +58,9 @@ namespace PrjSearchStudent.Controllers
 
 
         }
+        #endregion
 
-
+        #region Fetching Technology Name from the Technology table
         [Route("Technology")]
         [HttpGet]
         public IActionResult GetTechnology()
@@ -68,8 +69,9 @@ namespace PrjSearchStudent.Controllers
                         select t.TechnologyName).ToList();
             return Ok(tech);
         }
+        #endregion
 
-
+        #region Display Levels based on Technology whose questions exist
         [Route("{technology}")]
         [HttpGet]
         public IActionResult GetLevel(string technology)
@@ -83,7 +85,9 @@ namespace PrjSearchStudent.Controllers
                          select l.LevelNumber).ToList();
             return Ok(level);
         }
+        #endregion
 
     }
+    #endregion
 }
 
