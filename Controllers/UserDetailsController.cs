@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace PrjSearchStudent.Controllers
 {
+    #region User Module API's
     [Route("api/User")]
     [ApiController]
     public class UserDetailsController : ControllerBase
@@ -23,7 +24,7 @@ namespace PrjSearchStudent.Controllers
         }
 
        
-
+        #region Validating Email and Passsowrd while login
         [Route("do-login")]
         [HttpGet]
         public IActionResult checkLogin([FromQuery(Name = "email")] string email, [FromQuery(Name = "password")] string password)
@@ -56,7 +57,9 @@ namespace PrjSearchStudent.Controllers
                 return Ok("Invalid");
             }
         }
-
+        #endregion
+        
+        #region Fetch User ID based on email
         [Route("userid")]
         [HttpGet]
         public IActionResult getUserId([FromQuery(Name = "email")] string email)
@@ -72,6 +75,7 @@ namespace PrjSearchStudent.Controllers
                 return Ok("Cannot Retrieve UserId");
             }
         }
+        #endregion
 
 
 
@@ -96,7 +100,7 @@ namespace PrjSearchStudent.Controllers
             return db.TblUserDetails.Any(e => e.UserId == id);
         }
         */
-
+        #region Display Report based on Technology and Level
         [HttpGet]
        /* [Route("reportdetails/{id}")]
         public IActionResult GetReportbyId(int id)
@@ -124,7 +128,9 @@ namespace PrjSearchStudent.Controllers
                               ).ToList();
             return Ok(report);
         }
-
+        #endregion
+        
+        #region Adding exam report of the user
         [HttpPost]
         [Route("addreport")]
         public IActionResult AddReport(int userid, int techid, string levelid, int marks)
@@ -148,6 +154,7 @@ namespace PrjSearchStudent.Controllers
             }
 
         }
+        #endregion
 
 
         private bool TblUserExists(int id)
@@ -155,14 +162,17 @@ namespace PrjSearchStudent.Controllers
             return db.TblUserDetails.Any(e => e.UserId == id);
 
         }
-
+        
+        #region Fetching Report from Report table
         [HttpGet]
         [Route("allreportdetails")]
         public IActionResult GetAllReportDetails()
         {
             return Ok(db.TblReports.ToList());
         }
-
+        #endregion
+        
+        #region Sending OTP of email exists
         [HttpGet]
         [Route("forgot-pass")]
         //public async Task<int> ForgotId([FromQuery(Name = "email")] string email)
@@ -209,7 +219,9 @@ namespace PrjSearchStudent.Controllers
             /*int otp = SendEmailOtp(to);
                         return Ok(new { otp = otp, Email = email });*/
         }
-
+        #endregion
+        
+        #region Change Password after OTP verification
         [HttpPut]
         [Route("update-pass")]
         /* public IActionResult UpdatePassword([FromQuery (Name="email")] string email, [FromQuery(Name = "password")] string password)
@@ -231,9 +243,11 @@ namespace PrjSearchStudent.Controllers
                 return BadRequest("Invalid Email/OTP");
             }
         }
+        #endregion
 
 
     }
+    #endregion
 }
 /*
       // GET: api/TblUserDetails
