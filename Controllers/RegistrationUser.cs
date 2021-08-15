@@ -18,7 +18,8 @@ namespace PrjSearchStudent.Controllers
         {
             db = context;
         }
-
+        
+        #region Registering users into Database
         [HttpPost]
 
         public IActionResult UserDetails(string email, string mobileno, string username, string city, string state, DateTime date_of_birth, string qualification, string password, int year_of_passing)
@@ -43,5 +44,6 @@ namespace PrjSearchStudent.Controllers
 
             return Ok();
         }
+        #endregion
     }
 }
