@@ -10,7 +10,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrjSearchStudent.Controllers
-{
+{   
+    #region Admin Module Add Questions
     [Route("api/AddQuestions")]
     [ApiController]
     public class AddQuesController : ControllerBase
@@ -21,7 +22,8 @@ namespace PrjSearchStudent.Controllers
         {
             db = context;
         }
-
+        
+        #region Adding into Exam Table
         [HttpPost]
         public IActionResult AddExamDetails(string technology, int level, int duration, int cutoff )
         {
@@ -49,7 +51,9 @@ namespace PrjSearchStudent.Controllers
 ;
             return Ok(fileid);
         }
-
+        #endregion
+        
+        #region Adding Questions via excel file
         [Route("UploadExcel/{fileid}")]
         [HttpPost]
         public IActionResult ExcelUpload(int fileid, IFormCollection formdata)
@@ -115,7 +119,9 @@ namespace PrjSearchStudent.Controllers
             return BadRequest(new { message = "Invalid file extension" });
 
         }
-
+        #endregion
+        
+        
         
         [Route("Questions")]
         [HttpGet]
@@ -129,7 +135,7 @@ namespace PrjSearchStudent.Controllers
             return quest;
         }
         
-
+        #region Fetching Technology Name 
         [Route("Technology")]
         [HttpGet]
         public IActionResult GetTechnology()
@@ -138,7 +144,10 @@ namespace PrjSearchStudent.Controllers
                         select t.TechnologyName).ToList();
             return Ok(tech);
         }
-
+        #endregion
+        
+        
+        #region Display Level based on Technology in dropdown while Adding Questions
         [Route("{technology}")]
         [HttpGet]
         public IActionResult GetLevel(string technology)
@@ -161,6 +170,8 @@ namespace PrjSearchStudent.Controllers
 
             return Ok(Levellist);
         }
+        #endregion
     }
+    #endregion
 }
 
