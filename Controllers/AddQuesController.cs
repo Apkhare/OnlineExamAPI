@@ -27,29 +27,37 @@ namespace PrjSearchStudent.Controllers
         [HttpPost]
         public IActionResult AddExamDetails(string technology, int level, int duration, int cutoff )
         {
-            var techid = (from t in db.TblTechnologies
-                           where t.TechnologyName == technology
-                           select t.TechnologyId).FirstOrDefault();
+            try
+            {
+                var techid = (from t in db.TblTechnologies
+                              where t.TechnologyName == technology
+                              select t.TechnologyId).FirstOrDefault();
 
-            var levelid = (from l in db.TblLevels
-                           where l.LevelNumber == level
-                           select l.LevelId).FirstOrDefault();
+                var levelid = (from l in db.TblLevels
+                               where l.LevelNumber == level
+                               select l.LevelId).FirstOrDefault();
 
-            TblExamDetail examtable = new TblExamDetail();
-            examtable.TechnologyId = techid;
-            examtable.LevelId = levelid;
-            examtable.Duration = duration;
-            examtable.CutOff = cutoff;
+                TblExamDetail examtable = new TblExamDetail();
+                examtable.TechnologyId = techid;
+                examtable.LevelId = levelid;
+                examtable.Duration = duration;
+                examtable.CutOff = cutoff;
 
-            db.TblExamDetails.Add(examtable);
+                db.TblExamDetails.Add(examtable);
 
-            db.SaveChanges();
+                db.SaveChanges();
 
-            dynamic fileid = (from e in db.TblExamDetails
-                            where e.TechnologyId == techid && e.LevelId == levelid
-                            select e.FileId).FirstOrDefault();
-;
-            return Ok(fileid);
+                dynamic fileid = (from e in db.TblExamDetails
+                                  where e.TechnologyId == techid && e.LevelId == levelid
+                                  select e.FileId).FirstOrDefault();
+                ;
+                return Ok(fileid);
+            }
+            catch (Exception)
+            {
+
+                return BadRequest(new { message = "Error 404" });
+            }
         }
         #endregion
         
@@ -148,6 +156,7 @@ namespace PrjSearchStudent.Controllers
         
         
         #region Display Level based on Technology in dropdown while Adding Questions
+
         [Route("{technology}")]
         [HttpGet]
         public IActionResult GetLevel(string technology)

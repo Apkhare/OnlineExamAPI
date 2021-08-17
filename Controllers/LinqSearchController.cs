@@ -47,14 +47,14 @@ namespace PrjSearchStudent.Controllers
         #endregion
         
 
-        [Route("Technology")]
-        [HttpGet]
-        public IActionResult GetTechnology()
-        {
-            var tech = (from t in db.TblTechnologies
-                        select t.TechnologyName).ToList();
-            return Ok(tech);
-        }
+        //[Route("Technology")]
+        //[HttpGet]
+        //public IActionResult GetTechnology()
+        //{
+        //    var tech = (from t in db.TblTechnologies
+        //                select t.TechnologyName).ToList();
+        //    return Ok(tech);
+        //}
         
         
         #region Fetching Level Number in ascending order
@@ -83,7 +83,7 @@ namespace PrjSearchStudent.Controllers
         #endregion
 
         
-        #Fetching City from a particular state
+        # region Fetching City from a particular state
         [Route("state/{state}")]
         [HttpGet]
         public IActionResult GetCity(string state)

@@ -32,29 +32,20 @@ namespace PrjSearchStudent.Controllers
             try
             {
                 TblUserDetail result = db.TblUserDetails.Where(x => x.Email == email && x.Password == password).FirstOrDefault();
-                //TblUserDetails pass = db.TblUserDetails.Where(x => x.Password == password).FirstOrDefault();
+                
 
 
                 if (result != null)
                     return Ok("Success");
                 else
                     return Ok("Invalid");
-
-                /*
-                if(result.Email !=null && pass.Password !=null)
-                {
-                    return Ok("Success");
-                }
-                else
-                {
-                    return Ok("Invalid");
-                }*/
             }
 
             catch (Exception e)
             {
                 Console.Write(e);
-                return Ok("Invalid");
+                return Ok("Invalid Login " +
+                    "iD");
             }
         }
         #endregion
@@ -78,36 +69,9 @@ namespace PrjSearchStudent.Controllers
         #endregion
 
 
-
-        /*
-        // DELETE: api/TblUserDetails/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTblUserDetail(int id)
-        {
-            var tblUserDetail = await _context.TblUserDetails.FindAsync(id);
-            if (tblUserDetail == null)
-            {
-                return NotFound();
-            }
-            _context.TblUserDetails.Remove(tblUserDetail);
-            await _context.SaveChangesAsync();
-            return NoContent();
-        }
-        
-
-        private bool TblUserDetailExists(int id)
-        {
-            return db.TblUserDetails.Any(e => e.UserId == id);
-        }
-        */
         #region Display Report based on Technology and Level
-        [HttpGet]
-       /* [Route("reportdetails/{id}")]
-        public IActionResult GetReportbyId(int id)
 
-        {
-            return Ok(db.TblReports.Where(e => e.UserId == id).ToList());
-        } */
+        [HttpGet]
 
         [Route("reportdetails/{userid}")]
         public IActionResult GetReportbyId(int userid)
@@ -131,7 +95,9 @@ namespace PrjSearchStudent.Controllers
         #endregion
         
         #region Adding exam report of the user
+
         [HttpPost]
+
         [Route("addreport")]
         public IActionResult AddReport(int userid, int techid, string levelid, int marks)
         {
@@ -164,7 +130,9 @@ namespace PrjSearchStudent.Controllers
         }
         
         #region Fetching Report from Report table
+
         [HttpGet]
+
         [Route("allreportdetails")]
         public IActionResult GetAllReportDetails()
         {
@@ -175,6 +143,7 @@ namespace PrjSearchStudent.Controllers
         #region Sending OTP of email exists
         [HttpGet]
         [Route("forgot-pass")]
+
         //public async Task<int> ForgotId([FromQuery(Name = "email")] string email)
         public IActionResult ForgotId([FromQuery(Name = "email")] string email)
         {

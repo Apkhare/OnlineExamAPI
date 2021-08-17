@@ -7,9 +7,17 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace PrjSearchStudent.Controllers
-{   #region Admin Module Removing Questions
+{   
     [Route("api/[controller]")]
     [ApiController]
+
+    ///
+    /// 
+    /// 
+    ///
+    
+
+    #region Admin Module Removing Questions
     public class RemoveQuesController : ControllerBase
     {
         
@@ -25,51 +33,43 @@ namespace PrjSearchStudent.Controllers
         {
 
 
-            var examid = (from t in db.TblTechnologies
-                          join e in db.TblExamDetails
-                          on t.TechnologyId equals e.TechnologyId
-                          join l in db.TblLevels
-                          on e.LevelId equals l.LevelId
-                          where t.TechnologyName == technology && l.LevelNumber == level
-                          select e.FileId).FirstOrDefault();
+            try
+            {
+                var examid = (from t in db.TblTechnologies
+                              join e in db.TblExamDetails
+                              on t.TechnologyId equals e.TechnologyId
+                              join l in db.TblLevels
+                              on e.LevelId equals l.LevelId
+                              where t.TechnologyName == technology && l.LevelNumber == level
+                              select e.FileId).FirstOrDefault();
 
-            var ques = (from q in db.TblQuestionDetails
-                          where q.FileId == examid
-                          select q).ToList();
-
-            //dynamic examtable = await db.TblExamDetails.FindAsync(examid);
-
-            //dynamic questable = await db.TblQuestionDetails.FindAsync(examid);
-
-            var exam = await db.TblExamDetails.FindAsync(examid);
-
-            db.TblExamDetails.Remove(exam);
-
-            //var ques = await db.TblQuestionDetails.FindAsync(qexamid);
-
-            db.TblQuestionDetails.RemoveRange(ques);
-
-            db.SaveChanges();
-
-            return Ok(ques);
+                var ques = (from q in db.TblQuestionDetails
+                            where q.FileId == examid
+                            select q).ToList();
 
 
-            
+
+                var exam = await db.TblExamDetails.FindAsync(examid);
+
+                db.TblExamDetails.Remove(exam);
+
+                db.TblQuestionDetails.RemoveRange(ques);
+
+                db.SaveChanges();
+
+                return Ok(ques);
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+                return Ok("Invalid");
+            }
 
 
         }
         #endregion
 
-        #region Fetching Technology Name from the Technology table
-        [Route("Technology")]
-        [HttpGet]
-        public IActionResult GetTechnology()
-        {
-            var tech = (from t in db.TblTechnologies
-                        select t.TechnologyName).ToList();
-            return Ok(tech);
-        }
-        #endregion
+       
 
         #region Display Levels based on Technology whose questions exist
         [Route("{technology}")]

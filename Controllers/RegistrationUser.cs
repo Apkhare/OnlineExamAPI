@@ -24,25 +24,44 @@ namespace PrjSearchStudent.Controllers
 
         public IActionResult UserDetails(string email, string mobileno, string username, string city, string state, DateTime date_of_birth, string qualification, string password, int year_of_passing)
         {
-            
-
-            TblUserDetail usertable = new TblUserDetail();
-            usertable.Email = email;
-            usertable.MobileNumber = mobileno;
-            usertable.UserName = username;
-            usertable.City = city;
-            usertable.State = state;
-            usertable.DateOfBirth = date_of_birth;
-            usertable.Qualification = qualification;
-            usertable.Password = password;
-            usertable.YearOfPassing = year_of_passing;
 
 
-            db.TblUserDetails.Add(usertable);
+            try
+            {
+                TblUserDetail usertable = new TblUserDetail();
 
-            db.SaveChanges();
+                TblUserDetail emailexist = db.TblUserDetails.Where(a => a.Email == email).FirstOrDefault();
+                if (emailexist != null)
+                {
+                    return Ok("Email ID exists");
+                }
+                else
+                {
+                    usertable.Email = email;
+                    usertable.MobileNumber = mobileno;
+                    usertable.UserName = username;
+                    usertable.City = city;
+                    usertable.State = state;
+                    usertable.DateOfBirth = date_of_birth;
+                    usertable.Qualification = qualification;
+                    usertable.Password = password;
+                    usertable.YearOfPassing = year_of_passing;
+                }
 
-            return Ok();
+              
+
+
+                db.TblUserDetails.Add(usertable);
+
+                db.SaveChanges();
+
+                return Ok("User Registered successfully!");
+            }
+            catch (Exception)
+            {
+
+                return BadRequest("Error in registration. Please Try again");
+            }
         }
         #endregion
     }
